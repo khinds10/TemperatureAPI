@@ -40,6 +40,9 @@ deviceLoggerAPI = 'http://mywebsite.net'
 \# webroot for the clock wall tablet to show the current house conditions
 clockTabletImageRoot = '/var/www/clocktablet/img/'
 
+### Setup the Crontab [each 5 minutes]
+*/5 * * * * python /var/www/TemperatureAPI/home.py
+
 ### Finished!
 
 You can now ask for color gradients for given environment temperatures
