@@ -6,7 +6,7 @@ from PIL import Image
 app = Flask(__name__)
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
-def rgb_of_pixel(img_path, x, y):
+def rgbOfPixel(img_path, x, y):
     """for given image path, get the color at the x,y coords"""
     im = Image.open(img_path).convert('RGB')
     r, g, b = im.getpixel((x, y))
@@ -21,7 +21,7 @@ def getHexForColor(temperature):
             temperature = 999
         if temperature < 0:
             temperature = 0
-        color = rgb_of_pixel(dirPath + '/temp.png', temperature, 5)
+        color = rgbOfPixel(dirPath + '/temp.png', temperature, 5)
         return '#%02x%02x%02x' % color
     except:
         return '#ffffff'

@@ -56,10 +56,10 @@ addDevice('weather-clock-yellow')
 addDevice('weather-clock-red')
 
 # image width: 540px  height: 598px
-img = cv.imread('house-orig.jpg')
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0])))
+img = cv.imread(dirPath + '/house-orig.jpg')
 
 # basement
+hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0])))
 img = cv.rectangle(img, (60,450), (480,570), (hexColor[2],hexColor[1],hexColor[0]), -1)
 cv.putText(img,houseEnvironmentDevices[0][0] + "*", (230, 525), font, 1, (50,50,50), 2)
 
@@ -95,5 +95,5 @@ cv.drawContours(img, [triangle_cnt], 0, (hexColor[2],hexColor[1],hexColor[0]), -
 cv.putText(img,str(40) + "*", (240, 150), font, 1, (50,50,50), 2)
 
 # write the image and move it to the clock tablet webroot
-cv.imwrite('house.jpg',img)
-os.rename("house.jpg", settings.clockTabletImageRoot + "house.jpg")
+cv.imwrite(dirPath + "/house.jpg",img)
+os.rename(dirPath + "/house.jpg", settings.clockTabletImageRoot + "house.jpg")
