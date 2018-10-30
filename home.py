@@ -60,30 +60,30 @@ img = cv.imread(dirPath + '/house-orig.jpg')
 
 # basement
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0])))
-img = cv.rectangle(img, (60,450), (480,570), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[0][0] + "*", (230, 525), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (60,450), (480,570), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[0][0] + "*", (230, 525), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # main floor
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[1][0])))
-img = cv.rectangle(img, (60,320), (242,440), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[1][0] + "*", (125, 395), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (60,320), (242,440), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[1][0] + "*", (125, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[2][0])))
-img = cv.rectangle(img, (250,320), (480,440), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[2][0] + "*", (340, 395), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (250,320), (480,440), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[2][0] + "*", (340, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # 2nd floor
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[3][0])))
-img = cv.rectangle(img, (60,200), (200,310), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[3][0] + "*", (110, 270), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (60,200), (200,310), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[3][0] + "*", (110, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[4][0])))
-img = cv.rectangle(img, (208,200), (338,310), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[4][0] + "*", (250, 270), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (208,200), (338,310), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[4][0] + "*", (250, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][0])))
-img = cv.rectangle(img, (346,200), (478,310), (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,houseEnvironmentDevices[5][0] + "*", (385, 270), font, 1, (50,50,50), 2)
+img = cv.rectangle(img, (346,200), (478,310), (100,100,100), 2)
+cv.putText(img,houseEnvironmentDevices[5][0] + "*", (385, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # attic
 hexColor = hexToRgb(getHexForColor(40))
@@ -91,8 +91,8 @@ pt1 = (270, 40)
 pt2 = (90, 192)
 pt3 = (450, 192)
 triangle_cnt = np.array( [pt1, pt2, pt3] )
-cv.drawContours(img, [triangle_cnt], 0, (hexColor[2],hexColor[1],hexColor[0]), -1)
-cv.putText(img,str(40) + "*", (240, 150), font, 1, (50,50,50), 2)
+cv.drawContours(img, [triangle_cnt], 0, (100,100,100), 2)
+cv.putText(img,str(40) + "*", (240, 150), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # write the image and move it to the clock tablet webroot
 cv.imwrite(dirPath + "/house.jpg",img)
