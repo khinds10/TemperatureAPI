@@ -12,6 +12,11 @@ dirPath = os.path.dirname(os.path.realpath(__file__))
 houseEnvironmentDevices = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
+# get current forecast from current location
+weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL + settings.weatherAPIKey + '/' + str(settings.latitude) + ',' + str(settings.longitude) + '?lang=en').read())
+currentConditions = weatherInfo['currently']
+apparentTemperature = int(currentConditions['apparentTemperature'])
+
 def addDevice(deviceName):
     """add a home environment device, append it to the master list to show temps"""
     deviceConditions = []
@@ -60,39 +65,44 @@ img = cv.imread(dirPath + '/house-orig.jpg')
 
 # basement
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0])))
-img = cv.rectangle(img, (60,450), (480,570), (100,100,100), 2)
+img = cv.rectangle(img, (60,450), (480,570), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[0][0] + "*", (230, 525), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # main floor
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[1][0])))
-img = cv.rectangle(img, (60,320), (242,440), (100,100,100), 2)
+img = cv.rectangle(img, (60,320), (242,440), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[1][0] + "*", (125, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[2][0])))
-img = cv.rectangle(img, (250,320), (480,440), (100,100,100), 2)
+img = cv.rectangle(img, (250,320), (480,440), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[2][0] + "*", (340, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # 2nd floor
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[3][0])))
-img = cv.rectangle(img, (60,200), (200,310), (100,100,100), 2)
+img = cv.rectangle(img, (60,200), (200,310), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[3][0] + "*", (110, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[4][0])))
-img = cv.rectangle(img, (208,200), (338,310), (100,100,100), 2)
+img = cv.rectangle(img, (208,200), (338,310), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[4][0] + "*", (250, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][0])))
-img = cv.rectangle(img, (346,200), (478,310), (100,100,100), 2)
+img = cv.rectangle(img, (346,200), (478,310), (0,0,0), 0)
 cv.putText(img,houseEnvironmentDevices[5][0] + "*", (385, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
-# attic
-hexColor = hexToRgb(getHexForColor(40))
+# attic (temporary +10 for now)
+atticTemp = apparentTemperature + 10
+hexColor = hexToRgb(getHexForColor(atticTemp))
 pt1 = (270, 40)
 pt2 = (90, 192)
 pt3 = (450, 192)
 triangle_cnt = np.array( [pt1, pt2, pt3] )
-cv.drawContours(img, [triangle_cnt], 0, (100,100,100), 2)
-cv.putText(img,str(40) + "*", (240, 150), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+cv.drawContours(img, [triangle_cnt], 0, (0,0,0), 0)
+cv.putText(img,str(atticTemp) + "*", (240, 150), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+
+# show outside temperature
+hexColor = hexToRgb(getHexForColor(apparentTemperature))
+cv.putText(img,str(apparentTemperature) + "*", (395, 50), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
 
 # write the image and move it to the clock tablet webroot
 cv.imwrite(dirPath + "/house.jpg",img)
