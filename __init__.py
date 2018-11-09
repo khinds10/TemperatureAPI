@@ -13,7 +13,7 @@ def rgbOfPixel(img_path, x, y):
     a = (r, g, b)
     return a
 
-def getHexForColor(temperature):
+def getHexForColor(temperature, gradientImageFile):
     """get HEX code for given color"""    
     try:    
         temperature = temperature * 10
@@ -21,19 +21,37 @@ def getHexForColor(temperature):
             temperature = 999
         if temperature < 0:
             temperature = 0
-        color = rgbOfPixel(dirPath + '/temp.png', temperature, 5)
+        color = rgbOfPixel(dirPath + gradientImageFile, temperature, 5)
         return '#%02x%02x%02x' % color
     except:
         return '#ffffff'
-        
+
 @app.route("/")
-def getColor():
+def getTemperatureColor():
     """get temperature to generate the HEX color"""    
     temperature = int(request.args.get('temperature'))
-    return getHexForColor(temperature) 
+    return getHexForColor(temperature, '/temp.png') 
+
+@app.route("/humidity")
+def getHumidityColor():
+    """get humidity to generate the HEX color"""    
+    humidity = int(request.args.get('humidity'))
+    return getHexForColor(humidity, '/humidity.png')
+
+@app.route("/multiple-humidity")
+def getMultipleHumidityColors():
+    """get humidity to generate the HEX color from a comma separated list"""
+    humidities = request.args.get('humidities')
+    humidities = re.split(',', humidities)
+
+    # for all the given temperatures return as a JSON array
+    humidityResults = []
+    for humidity in humidities:
+        humidityResults.append(getHexForColor(int(humidity), '/humidity.png'))
+    return json.dumps(humidityResults)
 
 @app.route("/multiple")
-def getMultipleColors():
+def getMultipleTemperatureColors():
     """get temperature to generate the HEX color from a comma separated list"""
     temperatures = request.args.get('temperatures')
     temperatures = re.split(',', temperatures)
@@ -41,7 +59,7 @@ def getMultipleColors():
     # for all the given temperatures return as a JSON array
     temperatureResults = []
     for temperature in temperatures:
-        temperatureResults.append(getHexForColor(int(temperature)))
+        temperatureResults.append(getHexForColor(int(temperature), '/temp.png'))
     return json.dumps(temperatureResults)
         
 # run the flask python API
