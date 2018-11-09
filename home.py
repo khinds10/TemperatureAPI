@@ -16,6 +16,8 @@ font = cv.FONT_HERSHEY_SIMPLEX
 weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL + settings.weatherAPIKey + '/' + str(settings.latitude) + ',' + str(settings.longitude) + '?lang=en').read())
 currentConditions = weatherInfo['currently']
 apparentTemperature = int(currentConditions['apparentTemperature'])
+currentHumidity = currentConditions['humidity']
+currentHumidity = int(currentHumidity * 100)
 
 def addDevice(deviceName):
     """add a home environment device, append it to the master list to show temps"""
@@ -39,7 +41,7 @@ def hexToRgb(hex):
     hlen = len(hex)
     return tuple(int(hex[i:i+hlen/3], 16) for i in range(0, hlen, hlen/3))
 
-def getHexForColor(temperature):
+def getHexForColor(temperature, gradientImageFile):
     """get HEX code for given color"""    
     try:    
         temperature = temperature * 10
@@ -47,7 +49,7 @@ def getHexForColor(temperature):
             temperature = 999
         if temperature < 0:
             temperature = 0
-        color = rgbOfPixel(dirPath + '/temp.png', temperature, 5)
+        color = rgbOfPixel(dirPath + gradientImageFile, temperature, 5)
         return '#%02x%02x%02x' % color
     except:
         return '#ffffff'
@@ -64,46 +66,57 @@ addDevice('weather-clock-red')
 img = cv.imread(dirPath + '/house-orig.jpg')
 
 # basement
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0])))
-img = cv.rectangle(img, (60,450), (480,570), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[0][0] + "*", (230, 525), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[0][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[0][0] + "*", (220, 525), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[0][1] + "%", (285, 525), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
 # main floor
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[1][0])))
-img = cv.rectangle(img, (60,320), (242,440), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[1][0] + "*", (125, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[1][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[1][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[1][0] + "*", (105, 395), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[1][1] + "%", (170, 395), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[2][0])))
-img = cv.rectangle(img, (250,320), (480,440), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[2][0] + "*", (340, 395), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[2][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[2][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[2][0] + "*", (320, 395), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[2][1] + "%", (385, 395), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
 # 2nd floor
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[3][0])))
-img = cv.rectangle(img, (60,200), (200,310), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[3][0] + "*", (110, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[3][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[3][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[3][0] + "*", (50, 270), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[3][1] + "%", (115, 270), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[4][0])))
-img = cv.rectangle(img, (208,200), (338,310), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[4][0] + "*", (250, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[4][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[4][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[4][0] + "*", (215, 270), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[4][1] + "%", (280, 270), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
-hexColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][0])))
-img = cv.rectangle(img, (346,200), (478,310), (0,0,0), 0)
-cv.putText(img,houseEnvironmentDevices[5][0] + "*", (385, 270), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[5][0] + "*", (375, 270), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[5][1] + "%", (440, 270), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
-# attic (temporary +10 for now)
+# attic (temporary +10 for now / humidity - 10)
 atticTemp = apparentTemperature + 10
-hexColor = hexToRgb(getHexForColor(atticTemp))
+atticHumidity = currentHumidity - 10
+tempColor = hexToRgb(getHexForColor(atticTemp, '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(atticHumidity, '/humidity.png'))
 pt1 = (270, 40)
 pt2 = (90, 192)
 pt3 = (450, 192)
 triangle_cnt = np.array( [pt1, pt2, pt3] )
 cv.drawContours(img, [triangle_cnt], 0, (0,0,0), 0)
-cv.putText(img,str(atticTemp) + "*", (240, 150), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+cv.putText(img,str(atticTemp) + "*", (205, 150), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + str(atticHumidity) + "%", (270, 150), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
 # show outside temperature
-hexColor = hexToRgb(getHexForColor(apparentTemperature))
-cv.putText(img,str(apparentTemperature) + "*", (395, 50), font, 1, (hexColor[2],hexColor[1],hexColor[0]), 2)
+tempColor = hexToRgb(getHexForColor(apparentTemperature, '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(currentHumidity, '/humidity.png'))
+cv.putText(img,str(apparentTemperature) + "*", (395, 50), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + str(currentHumidity) + "%", (460, 50), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
 # write the image and move it to the clock tablet webroot
-cv.imwrite(dirPath + "/house.jpg",img)
+cv.imwrite(dirPath + "/house.jpg", img)
 os.rename(dirPath + "/house.jpg", settings.clockTabletImageRoot + "house.jpg")
