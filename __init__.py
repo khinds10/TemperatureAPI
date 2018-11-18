@@ -32,6 +32,12 @@ def getTemperatureColor():
     temperature = int(request.args.get('temperature'))
     return getHexForColor(temperature, '/temp.png') 
 
+@app.route("/neopixel")
+def getTemperatureColor():
+    """get temperature to generate the HEX color for neopixel color scheme"""
+    temperature = int(request.args.get('temperature'))
+    return getHexForColor(temperature, '/neopixel.png')
+
 @app.route("/humidity")
 def getHumidityColor():
     """get humidity to generate the HEX color"""    
