@@ -13,7 +13,7 @@ houseEnvironmentDevices = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
 # get current forecast from current location
-weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL + settings.weatherAPIKey + '/' + str(settings.latitude) + ',' + str(settings.longitude) + '?lang=en').read())
+weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL).read())
 currentConditions = weatherInfo['currently']
 apparentTemperature = int(currentConditions['apparentTemperature'])
 currentHumidity = currentConditions['humidity']
@@ -61,6 +61,7 @@ addDevice('weather-clock')
 addDevice('weather-clock-white')
 addDevice('weather-clock-yellow')
 addDevice('weather-clock-red')
+addDevice('weather-clock-attic')
 
 # image width: 540px  height: 598px
 img = cv.imread(dirPath + '/house-orig.jpg')
@@ -98,18 +99,16 @@ humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[5][1]), '/hu
 cv.putText(img,houseEnvironmentDevices[5][0] + "*", (375, 270), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
 cv.putText(img,"" + houseEnvironmentDevices[5][1] + "%", (440, 270), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
-# attic (temporary +10 for now / humidity - 10)
-atticTemp = apparentTemperature + 10
-atticHumidity = currentHumidity - 10
-tempColor = hexToRgb(getHexForColor(atticTemp, '/temp.png'))
-humidityColor = hexToRgb(getHexForColor(atticHumidity, '/humidity.png'))
+tempColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[6][0]), '/temp.png'))
+humidityColor = hexToRgb(getHexForColor(int(houseEnvironmentDevices[6][1]), '/humidity.png'))
+cv.putText(img,houseEnvironmentDevices[6][0] + "*", (205, 150), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
+cv.putText(img,"" + houseEnvironmentDevices[6][1] + "%", (270, 150), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
+
 pt1 = (270, 40)
 pt2 = (90, 192)
 pt3 = (450, 192)
 triangle_cnt = np.array( [pt1, pt2, pt3] )
 cv.drawContours(img, [triangle_cnt], 0, (0,0,0), 0)
-cv.putText(img,str(atticTemp) + "*", (205, 150), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
-cv.putText(img,"" + str(atticHumidity) + "%", (270, 150), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
 
 # show outside temperature
 tempColor = hexToRgb(getHexForColor(apparentTemperature, '/temp.png'))
