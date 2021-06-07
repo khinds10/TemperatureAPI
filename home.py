@@ -14,10 +14,9 @@ font = cv.FONT_HERSHEY_SIMPLEX
 
 # get current forecast from current location
 weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL).read())
-currentConditions = weatherInfo['currently']
-apparentTemperature = int(currentConditions['apparentTemperature'])
+currentConditions = weatherInfo['current']
+apparentTemperature = int(currentConditions['feels_like'])
 currentHumidity = currentConditions['humidity']
-currentHumidity = int(currentHumidity * 100)
 
 def addDevice(deviceName):
     """add a home environment device, append it to the master list to show temps"""
