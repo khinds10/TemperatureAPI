@@ -54,13 +54,13 @@ def getHexForColor(temperature, gradientImageFile):
         return '#ffffff'
 
 # add home devices
-addDevice('weather-clock-gray')
+addDevice('temp-check-basement')
 addDevice('weather-clock-small-white')
-addDevice('weather-clock')
+addDevice('temp-check-living')
 addDevice('weather-clock-white')
 addDevice('weather-clock-yellow')
 addDevice('weather-clock-red')
-addDevice('weather-clock-attic')
+addDevice('temp-check-attic')
 
 # image width: 540px  height: 598px
 img = cv.imread(dirPath + '/house-orig.jpg')
