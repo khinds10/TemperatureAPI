@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys, os, urllib2, json
+import sys, os, json
+from urllib.request import urlopen
+
 import numpy as np
 import cv2 as cv
 from PIL import Image
@@ -13,7 +15,7 @@ houseEnvironmentDevices = []
 font = cv.FONT_HERSHEY_SIMPLEX
 
 # get current forecast from current location
-weatherInfo = json.loads(urllib2.urlopen(settings.weatherAPIURL).read())
+weatherInfo = json.loads(urlopen(settings.weatherAPIURL).read())
 currentConditions = weatherInfo['current']
 apparentTemperature = int(float(currentConditions['feels_like']))
 currentHumidity = currentConditions['humidity']
@@ -21,7 +23,7 @@ currentHumidity = currentConditions['humidity']
 def addDevice(deviceName):
     """add a home environment device, append it to the master list to show temps"""
     deviceConditions = []
-    deviceData = urllib2.urlopen(settings.deviceLoggerAPI + "/api/read?device=" + deviceName).read()
+    deviceData = urlopen(settings.deviceLoggerAPI + "/api/read?device=" + deviceName).read()
     deviceData = json.loads(deviceData)
     deviceConditions.append(deviceData[0]['value1'])
     deviceConditions.append(deviceData[0]['value2'])    
@@ -38,7 +40,7 @@ def hexToRgb(hex):
     """for hex get the RGB tuple for Python OpenCV"""
     hex = hex.lstrip('#')
     hlen = len(hex)
-    return tuple(int(hex[i:i+hlen/3], 16) for i in range(0, hlen, hlen/3))
+    return tuple(int(hex[i:i+hlen//3], 16) for i in range(0, hlen, hlen//3))
 
 def getHexForColor(temperature, gradientImageFile):
     """get HEX code for given color"""    
