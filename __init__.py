@@ -44,6 +44,12 @@ def getHumidityColor():
     humidity = int(request.args.get('humidity'))
     return getHexForColor(humidity, '/humidity.png')
 
+@app.route("/precipitation")
+def getPrecipitationColor():
+    """get humidity to generate the HEX color"""    
+    humidity = int(request.args.get('precipitation'))
+    return getHexForColor(humidity, '/precipitation.png')
+
 @app.route("/multiple-humidity")
 def getMultipleHumidityColors():
     """get humidity to generate the HEX color from a comma separated list"""

@@ -56,9 +56,9 @@ def getHexForColor(temperature, gradientImageFile):
         return '#ffffff'
 
 # add home devices
-addDevice('temp-check-basement ')
-addDevice('temp-check-livingroom') #addDevice('temp-check-kitchen')
-addDevice('temp-check-livingroom')
+addDevice('temp-check-basement')
+addDevice('temp-check-kitchen') 
+addDevice('temp-check-living')
 addDevice('temp-check-bedroom')
 addDevice('temp-check-sam') # addDevice('temp-check-guest')
 addDevice('temp-check-sam')
