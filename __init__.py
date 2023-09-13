@@ -30,25 +30,25 @@ def getHexForColor(temperature, gradientImageFile):
 def getTemperatureColor():
     """get temperature to generate the HEX color"""    
     temperature = int(request.args.get('temperature'))
-    return getHexForColor(temperature, '/temp.png') 
+    return getHexForColor(int(temperature), '/temp.png') 
 
 @app.route("/neopixel")
 def getTemperatureColorNeoPixel():
     """get temperature to generate the HEX color for neopixel color scheme"""
     temperature = int(request.args.get('temperature'))
-    return getHexForColor(temperature, '/neopixel.png')
+    return getHexForColor(int(temperature), '/neopixel.png')
 
 @app.route("/humidity")
 def getHumidityColor():
     """get humidity to generate the HEX color"""    
     humidity = int(request.args.get('humidity'))
-    return getHexForColor(humidity, '/humidity.png')
+    return getHexForColor(int(humidity), '/humidity.png')
 
 @app.route("/precipitation")
 def getPrecipitationColor():
     """get humidity to generate the HEX color"""    
-    humidity = int(request.args.get('precipitation'))
-    return getHexForColor(humidity, '/precipitation.png')
+    humidity = float(request.args.get('precipitation'))
+    return getHexForColor(int(humidity), '/precipitation.png')
 
 @app.route("/multiple-humidity")
 def getMultipleHumidityColors():
