@@ -1,9 +1,10 @@
 #!/usr/bin/python
 import os, sys, re, json
-from flask import Flask
-from flask import request
+from flask import Flask, request
+from flask_cors import CORS
 from PIL import Image
 app = Flask(__name__)
+CORS(app)  # This will enable CORS for all routes
 dirPath = os.path.dirname(os.path.realpath(__file__))
 
 def rgbOfPixel(img_path, x, y):
@@ -73,7 +74,14 @@ def getMultipleTemperatureColors():
     for temperature in temperatures:
         temperatureResults.append(getHexForColor(int(temperature), '/temp.png'))
     return json.dumps(temperatureResults)
-        
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
+    return response
+
 # run the flask python API
 if __name__ == "__main__":
     app.run()

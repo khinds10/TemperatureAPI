@@ -35,7 +35,7 @@ def addDevice(deviceName):
     timeNow = time.time()
     timeNow = int(round(timeNow))
     if (timeNow-timestamp > 3600):
-        print (deviceName)
+        print (deviceName + " - no data")
         deviceData[0]['value1'] = '00'
         deviceData[0]['value2'] = '00'
     
@@ -85,6 +85,7 @@ img = cv.imread(dirPath + '/house-orig.jpg')
 # basement
 tempColor = hexToRgb(getHexForColor(int(float(houseEnvironmentDevices[0][0])), '/temp.png'))
 humidityColor = hexToRgb(getHexForColor(int(float(houseEnvironmentDevices[0][1])), '/humidity.png'))
+
 if (str(houseEnvironmentDevices[0][0]) != "00"):
     cv.putText(img,houseEnvironmentDevices[0][0] + "*", (105, 525), font, 1, (tempColor[2],tempColor[1],tempColor[0]), 2)
     cv.putText(img,"" + str(int(float(houseEnvironmentDevices[0][1]))) + "%", (170, 525), font, 0.65, (humidityColor[2],humidityColor[1],humidityColor[0]), 2)
@@ -154,9 +155,9 @@ os.rename(dirPath + "/house.jpg", settings.clockTabletImageRoot + "house.jpg")
 tempColor = hexToRgb(getHexForColor(int(float(houseEnvironmentDevices[7][0])), '/temp.png'))
 humidityColor = hexToRgb(getHexForColor(int(float(houseEnvironmentDevices[7][1])), '/humidity.png'))
 data = {
-    "temp": houseEnvironmentDevices[7][0],
+    "temp": houseEnvironmentDevices[3][0],
     "tempColor": tempColor,
-    "humidity": houseEnvironmentDevices[7][1], 
+    "humidity": houseEnvironmentDevices[3][1], 
     "humidityColor": humidityColor,
 }
 with open(dirPath + "/bedroom.json", "w") as file:
